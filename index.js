@@ -1,24 +1,24 @@
-module.exports =  function UrlQueryBuilder (url) {
+module.exports =  function URLQueryBuilder (url) {
     this.url = url || "";
     this.query = {};
 
     /**
      * Get a current url with queries
      */
-    UrlQueryBuilder.prototype.getUrl = function() {
+    URLQueryBuilder.prototype.getUrl = function() {
         var url = this.url + "?";
         for(var name in this.query) {
             url += name + "=" + this.query[name] + "&";
         }
      
-       return url;
+        return url;
     };
 
     /**
      * Delete query by name
      * @param {string} name, query that will be deleted
      */
-    UrlQueryBuilder.prototype.delete = function(name) {
+    URLQueryBuilder.prototype.delete = function(name) {
         if(!this.query[name])
              throw new Error("Can't delete. Query: '" + name + "' not exists");
      
@@ -31,7 +31,7 @@ module.exports =  function UrlQueryBuilder (url) {
      * @param {string} name, query what will be changed
      * @param {string|number} value, new value for query
      */
-    UrlQueryBuilder.prototype.change = function(name, value) {
+    URLQueryBuilder.prototype.change = function(name, value) {
         if(!this.query[name])
             throw new Error("Can't change. Query: '" + name + "' not exists");
      
@@ -44,7 +44,7 @@ module.exports =  function UrlQueryBuilder (url) {
      * @param {string} name, name of new query
      * @param {string|number} value, value for new query
      */
-    UrlQueryBuilder.prototype.add = function(name, value) {
+    URLQueryBuilder.prototype.add = function(name, value) {
         if(this.query[name])
             throw new Error("Can't add. Query: '" + name + "' already exists");
      

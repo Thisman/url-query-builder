@@ -3,18 +3,23 @@
 
 ## Usage
 ```
-var url = 'example.com';
-var queryBuilder = new QueryBuilder(url);
+// nodejs style
+var URLQueryBuilder = require("url-query-builder");
 
-/** Add query */
-queryBuilder.add("queryName", "value");
-queryBuilder.getUrl(); // => example.com?queryName=value&
+// es6 way
+import URLQueryBuilder from "url-query-builder";
 
-/** Change query */
-queryBuilder.change("queryName", "newValue");
-queryBuilder.getUrl(); // => example.com?queryName=newValue&
+var q = new URLQueryBuilder("example.com");
+q.add("num1", 100) // => example.com?num1=100
+	.add("num2", 200) // => example.com?num1=100&num2=200&
+	.change("num1", 150) // => example.com?num1=150&num2=200&
+	.delete("num2") // => example.com?num1=100&
+	.add("num3", "300"); // => example.com?num1=100&num3=300&
 
-/** Delete query */
-queryBuilder.delete("queryName");
-queryBuilder.getUrl(); // => example.com?
+q.getUrl() // => example.com?num1=100&num3=300&
+```
+
+## Install
+```
+npm i url-query-builder
 ```

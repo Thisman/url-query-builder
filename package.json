@@ -1,0 +1,26 @@
+{
+  "name": "url-query-builder",
+  "version": "1.0.0",
+  "description": "Simple add/change/delete url query",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thisman/UrlQueryBuilder.git"
+  },
+  "keywords": [
+    "url",
+    "query",
+    "builder",
+    "js",
+    "javascript"
+  ],
+  "author": "Thisman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Thisman/UrlQueryBuilder/issues"
+  },
+  "homepage": "https://github.com/Thisman/UrlQueryBuilder#readme"
+}

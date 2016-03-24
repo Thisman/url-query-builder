@@ -2,7 +2,7 @@
 
 
 ## Usage
-```
+```js
 // nodejs style
 var URLQueryBuilder = require("url-query-builder");
 

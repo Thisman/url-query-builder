@@ -1,4 +1,4 @@
-module.exports =  function UrlQueryBuilder = function (url) {
+module.exports =  function UrlQueryBuilder (url) {
     this.url = url || "";
     this.query = {};
 

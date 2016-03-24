@@ -1,6 +1,4 @@
-module.exports = UrlQueryBuilder;
-
-var UrlQueryBuilder = function (url) {
+function UrlQueryBuilder = function (url) {
        this.url = url || "";
        this.query = {};
 };
@@ -54,3 +52,6 @@ UrlQueryBuilder.prototype.add = function(name, value) {
     this.query[name] = value.toString();
     return this;
 };
+
+
+module.exports = UrlQueryBuilder;

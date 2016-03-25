@@ -5,8 +5,13 @@
 */
 
 module.exports =  function URLQueryBuilder (url, queries) {
-    this.url = url || "";
-    this.query = (queries == undefined) ? {} : parseQueries(queries);
+    this.url = getClearUrl(url);
+    this.query = parseQueriesFromUrl(url);
+
+    var queriesFromParam = parseQueries(queries);
+    for(var i in queriesFromParam)
+        this.query[i] = queriesFromParam[i];
+
     
     /**
      * Get a current url with queries
@@ -72,19 +77,46 @@ module.exports =  function URLQueryBuilder (url, queries) {
     *   @return {Object} parsed queries
     */
     function parseQueries (queries) {
-        var parsedQuery = {};
-        if(typeof queries == "object") {
-            parsedQuery = queries;
+        var parsedQueries = {};
+        var queriesType = typeof queries;
+
+        if(typeof queries == 'undefined') {
+            return parsedQueries;
+        } else if(typeof queries == "object") {
+            parsedQueries = queries;
         } else if(typeof queries == "string") {
             var queriesArray = queries.split("&");
             for(var i = 0; i < queriesArray.length; i++) {
                 var query = queriesArray[i].split("=");
-                parsedQuery[query[0]] = query[1];
+                parsedQueries[query[0]] = query[1];
             }
         } else {
             throw new Error("param queries must have a string or an object type");
         }
 
-        return parsedQuery;
+        return parsedQueries;
+    }
+
+    
+    function parseQueriesFromUrl(url) {
+        if(!url) return {};
+        if(typeof url != 'string') 
+            throw new Error("param url must be a string or undefined");
+
+        var queries = url.split("?")[1];
+        queries = parseQueries(queries);
+
+        return queries;
+    }
+
+    /**
+    *   get a clear url without query
+    */
+    function getClearUrl(url) {
+        if(!url) return '';
+        if(typeof url != 'string') 
+            throw new Error("param url must be a string or undefined");
+
+        return url.split("?")[0];
     }
 }

@@ -35,7 +35,7 @@ npm i url-query-builder
 ```
 
 ## Test
-###### For test use mocha.js
+- use *mocha.js* and *should.js*
 ```
 npm run test
 ```

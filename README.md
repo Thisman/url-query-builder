@@ -23,3 +23,9 @@ q.getUrl() // => example.com?num1=100&num3=300&
 ```
 npm i url-query-builder
 ```
+
+## Test
+###### For test use mocha.js
+```
+npm run test
+```

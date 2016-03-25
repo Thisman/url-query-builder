@@ -7,6 +7,29 @@ var siteUrl = "example.com";
 
 describe('Url Query Builder', function() {
 
+	describe('#init', function () {
+		it('should parse inital query by @param {string} query', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl, "name=value");
+			var url = qBuilder.getUrl();
+
+			assert.equal("example.com?name=value&", url);
+		});
+
+		it('should parse inital query by @param {object} query', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl, {"name": "value"});
+			var url = qBuilder.getUrl();
+
+			assert.equal("example.com?name=value&", url);
+		});
+
+		it('should not throw an exception when initialization without params', function () {
+			(function () {
+				var qBuilder = new URLQueryBuilder();
+			}).should.not.throw();
+		});
+	});
+
+
 	describe('#add()', function () {
 		it('should add query string to url', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl);

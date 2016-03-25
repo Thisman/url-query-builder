@@ -16,10 +16,10 @@ describe('Url Query Builder', function() {
 		});
 
 		it('should parse inital query by @param {object} query', function () {
-			var qBuilder = new URLQueryBuilder(siteUrl, {"name": "value"});
+			var qBuilder = new URLQueryBuilder(siteUrl, {"name": "value", "name2":"value2"});
 			var url = qBuilder.getUrl();
 
-			assert.equal("example.com?name=value&", url);
+			assert.equal("example.com?name=value&name2=value2&", url);
 		});
 
 		it('should not throw an exception when initialization without params', function () {
@@ -45,6 +45,23 @@ describe('Url Query Builder', function() {
 				var qBuilder = new URLQueryBuilder(siteUrl);
 				var url = qBuilder.add("name", "value")
 					.add("name", "value")
+			}).should.throw();		
+		})
+
+		it('should add query object to url', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl);
+			var url = qBuilder.add({"name": "value"}).getUrl();
+			assert.equal( "example.com?name=value&", url);
+
+			url = qBuilder.add({"name2" : "value2"}).getUrl();
+			assert.equal("example.com?name=value&name2=value2&", url);
+		});
+
+		it('should throw error trying add query {object} that already exist', function () {
+			(function () {
+				var qBuilder = new URLQueryBuilder(siteUrl);
+				var url = qBuilder.add("name", "value")
+					.add({"name" : "value"})
 			}).should.throw();		
 		})
 	});

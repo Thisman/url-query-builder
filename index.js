@@ -1,7 +1,13 @@
-module.exports =  function URLQueryBuilder (url) {
-    this.url = url || "";
-    this.query = {};
+/**
+*   @constructor
+*   @param {string} url
+*   @param {string|object|undefined} queries
+*/
 
+module.exports =  function URLQueryBuilder (url, queries) {
+    this.url = url || "";
+    this.query = (queries == undefined) ? {} : parseQueries(queries);
+    
     /**
      * Get a current url with queries
      */
@@ -52,4 +58,26 @@ module.exports =  function URLQueryBuilder (url) {
         return this;
     };
 
-};
+
+    /**
+    *   Parse queries
+    *   @param {Object|string} queries
+    *   @return {Object} parsed queries
+    */
+    function parseQueries (queries) {
+        var parsedQuery = {};
+        if(typeof queries == "object") {
+            parsedQuery = queries;
+        } else if(typeof queries == "string") {
+            var queriesArray = queries.split("&");
+            for(var i = 0; i < queriesArray.length; i++) {
+                var query = queriesArray[i].split("=");
+                parsedQuery[query[0]] = query[1];
+            }
+        } else {
+            throw new Error("param queries must have a string or an object type");
+        }
+
+        return parsedQuery;
+    }
+}

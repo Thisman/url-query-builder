@@ -51,10 +51,17 @@ module.exports =  function URLQueryBuilder (url, queries) {
      * @param {string|number} value, value for new query
      */
     URLQueryBuilder.prototype.add = function(name, value) {
-        if(this.query[name])
-            throw new Error("Can't add. Query: '" + name + "' already exists");
-     
-        this.query[name] = value.toString();
+        if(typeof name == 'string') {
+            if(this.query[name])
+                throw new Error("Can't add. Query: '" + name + "' already exists");
+         
+            this.query[name] = value.toString();
+        } else if(typeof name == 'object') {
+            var queries = name;
+            for(var i in queries) {
+                this.add(i, queries[i]);
+            }
+        }
         return this;
     };
 

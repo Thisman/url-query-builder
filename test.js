@@ -8,6 +8,13 @@ var siteUrl = "example.com";
 describe('Url Query Builder', function() {
 
 	describe('#init', function () {
+		it('should parse initial query from url', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl + "?name=value");
+			var url = qBuilder.add("name2", "value2").add({cost: 100}).getUrl();
+
+			assert.equal("example.com?name=value&name2=value2&cost=100&", url);
+		});
+
 		it('should parse inital query by @param {string} query', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl, "name=value");
 			var url = qBuilder.getUrl();
@@ -26,6 +33,7 @@ describe('Url Query Builder', function() {
 			(function () {
 				var qBuilder = new URLQueryBuilder();
 			}).should.not.throw();
+
 		});
 	});
 

@@ -11,13 +11,10 @@ import URLQueryBuilder from "url-query-builder";
 
 // create instance
 var q = new URLQueryBuilder("example.com");
-
 // with query in url
-var q1 = new URLQueryBuilder("example.com?name=value"); // => example.com?name=value&
-
-// with initial query, can be string
-var q2 = new URLQueryBuilder("example.com", "name=value"); // => example.com?name=value&
-
+var q1 = new URLQueryBuilder("example.com?a=b"); // => example.com?a=b&
+// with query by param, can be string
+var q2 = new URLQueryBuilder("example.com", "a=b"); // => example.com?a=b&
 // or object
 var q3 = new URLQueryBuilder("example.com", {
 	"name": "value", 
@@ -34,7 +31,6 @@ q.add("num1", 100) // => example.com?num1=100
 
 // reset queries
 q.reset().getUrl(); // => example.com?
-
 // or reset with new queries
 q.reset({name: 100}); // => example.com?name=100&
 ```

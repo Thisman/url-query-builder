@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Thisman/UrlQueryBuilder.git"
+    "url": "git+https://github.com/Thisman/url-query-builder.git"
   },
   "keywords": [
     "url",
@@ -20,7 +20,7 @@
   "author": "Thisman <tablescable@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Thisman/UrlQueryBuilder/issues"
+    "url": "https://github.com/Thisman/url-query-builder/issues"
   },
-  "homepage": "https://github.com/Thisman/UrlQueryBuilder#readme"
+  "homepage": "https://github.com/Thisman/url-query-builder#readme"
 }

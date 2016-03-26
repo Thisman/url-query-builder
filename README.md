@@ -5,7 +5,6 @@
 ```js
 // nodejs style
 var URLQueryBuilder = require("url-query-builder");
-
 // es6 way
 import URLQueryBuilder from "url-query-builder";
 

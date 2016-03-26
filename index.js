@@ -15,8 +15,11 @@ function parseQueries (queries) {
     	case "string":
 	        var queriesArray = queries.split("&");
 	        for(var i = 0; i < queriesArray.length; i++) {
+	        	if(queriesArray[i].indexOf("=") < 0) 
+	        		continue;
+
 	            var query = queriesArray[i].split("=");
-	            parsedQueries[query[0]] = query[1];
+		        parsedQueries[query[0]] = query[1];
 	        }
     		break;
 

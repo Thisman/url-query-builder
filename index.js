@@ -8,23 +8,20 @@ function parseQueries (queries) {
     var paramType = typeof queries;
 
     switch(paramType) {
-    	case "undefined": break; // should not throw error
     	case "object":
 	        parsedQueries = queries;
     		break;
     	case "string":
 	        var queriesArray = queries.split("&");
 	        for(var i = 0; i < queriesArray.length; i++) {
-	        	if(queriesArray[i].indexOf("=") < 0) 
-	        		continue;
-
 	            var query = queriesArray[i].split("=");
-		        parsedQueries[query[0]] = query[1];
+	            // check to valud data
+	            if(query.length == 2)
+			        parsedQueries[query[0]] = query[1];
 	        }
     		break;
 
-    	default: 
-    		throw new Error("param queries must have a string or an object type");
+    	default: break;
     }
     return parsedQueries;
 }
@@ -33,17 +30,11 @@ function parseQueries (queries) {
 *	@param {string} url
 */
 function parseQueriesFromUrl(url) {
-	var paramType = typeof url;
 	var queries = {};
-
-	switch(paramType) {
-		case "undefined": break;
-		case "string":
-		    var queries = url.split("?")[1];
-		    queries = parseQueries(queries);
-			break;
-		default:
-	        throw new Error("param url must be a string or undefined");
+	
+	if(typeof url === 'string') {
+		var queries = url.split("?")[1];
+		queries = parseQueries(queries);
 	}
 
     return queries;
@@ -54,17 +45,10 @@ function parseQueriesFromUrl(url) {
 *	@return {string} url without query string
 */
 function getClearUrl(url) {
-	var paramType = typeof url;
 	var clearedUrl = '';
 
-	switch(paramType) {
-		case "undefined": break;
-		case "string":
-			clearedUrl = url.split("?")[0];
-			break;
-		default:
-	        throw new Error("param url must be a string or undefined");
-	}
+	if(typeof url === 'string')
+		clearedUrl = url.split("?")[0];
 
     return clearedUrl;
 }
@@ -88,12 +72,13 @@ module.exports =  function URLQueryBuilder (url, queries) {
      *	Get a current url with queries
      */
     URLQueryBuilder.prototype.getUrl = function() {
-        var url = this.url + "?";
+        var url = this.url;
+        var queries = '?';
         for(var name in this.queries) {
-            url += name + "=" + this.queries[name] + "&";
+            queries += (name + "=" + this.queries[name] + "&");
         }
      
-        return url;
+        return url + queries;
     };
     
 
@@ -110,9 +95,6 @@ module.exports =  function URLQueryBuilder (url, queries) {
      *	@param {string} name, query that will be deleted
      */
     URLQueryBuilder.prototype.delete = function(name) {
-        if(!this.queries[name])
-             throw new Error("Can't delete. Query: '" + name + "' not exists");
-     
         delete this.queries[name];
         return this;
     };
@@ -123,9 +105,6 @@ module.exports =  function URLQueryBuilder (url, queries) {
      *	@param {string|number} value, new value for query
      */
     URLQueryBuilder.prototype.change = function(name, value) {
-        if(!this.queries[name])
-            throw new Error("Can't change. Query: '" + name + "' not exists");
-     
         this.queries[name] = value.toString();
         return this;
     };
@@ -140,19 +119,15 @@ module.exports =  function URLQueryBuilder (url, queries) {
 
     	switch(paramType) {
     		case "string":
-	            if(this.queries[name])
-	                throw new Error("Can't add. Query: '" + name + "' already exists");
-	         
 	            this.queries[name] = value.toString();
     			break;
     		case "object":
 	            var queries = name;
-	            for(var i in queries) 
-	            	this.add(i, queries[i]);
+	            for(var i in queries) this.add(i, queries[i]);
     			break;
 
     		default:
-    			throw new Error("Unknow type of param name. Type must be a string or an object")
+    			throw new Error("Param name must be a string or an object");
     	}
 
         return this;
@@ -164,11 +139,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
      * 	@param {string|object} queries
      */
     URLQueryBuilder.prototype.reset = function(queries) {
-    	this.queries = {};
-    	if(typeof queries != 'undefined') {
-    		var queriesFromParam = parseQueries(queries);
-    		this.add(queriesFromParam);
-    	}
+		this.queries = parseQueries(queries);
 
         return this;
     };
@@ -179,6 +150,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
      * 	@return {boolean} true if has, false if not
      */
     URLQueryBuilder.prototype.has = function(name) {
+
     	return (name in this.queries);
     };
 }

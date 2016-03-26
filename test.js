@@ -34,6 +34,13 @@ describe('Url Query Builder', function() {
 				var qBuilder = new URLQueryBuilder();
 			}).should.not.throw();
 		});
+
+		it('don"t added empty query after last &', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl + "?name=value&");
+			var url = qBuilder.getUrl();
+
+			assert.equal("example.com?name=value&", url);
+		})
 	});
 
 
@@ -72,7 +79,6 @@ describe('Url Query Builder', function() {
 			}).should.throw();		
 		})
 	});
-
 
 	describe('#change()', function () {
 		it('should change query string to url', function () {

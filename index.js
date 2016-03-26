@@ -31,9 +31,9 @@ function parseQueries (queries) {
 */
 function parseQueriesFromUrl(url) {
 	var queries = {};
-	
+
 	if(typeof url === 'string') {
-		var queries = url.split("?")[1];
+		queries = url.split("?")[1];
 		queries = parseQueries(queries);
 	}
 

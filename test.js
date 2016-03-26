@@ -43,7 +43,6 @@ describe('Url Query Builder', function() {
 		})
 	});
 
-
 	describe('#add()', function () {
 		it('should add query string to url', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl);
@@ -144,4 +143,17 @@ describe('Url Query Builder', function() {
 		})
 	});
 
+	describe('#has()', function () {
+		it('should return true if query name is exist', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl + "?name=value");
+
+			assert.equal(true, qBuilder.has("name"));
+		});
+
+		it('should return false if query name not exist', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl + "?name=value");
+
+			assert.equal(false, qBuilder.has("name2"));
+		})
+	});
 });

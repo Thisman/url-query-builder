@@ -74,67 +74,99 @@ function getClearUrl(url) {
 */
 module.exports =  function URLQueryBuilder (url, queries) {
     this.url = getClearUrl(url);
-    this.query = parseQueriesFromUrl(url);
+    this.queries = parseQueriesFromUrl(url);
 
     var queriesFromParam = parseQueries(queries);
     for(var i in queriesFromParam)
-        this.query[i] = queriesFromParam[i];
+        this.queries[i] = queriesFromParam[i];
 
     
     /**
-     * Get a current url with queries
+     *	Get a current url with queries
      */
     URLQueryBuilder.prototype.getUrl = function() {
         var url = this.url + "?";
-        for(var name in this.query) {
-            url += name + "=" + this.query[name] + "&";
+        for(var name in this.queries) {
+            url += name + "=" + this.queries[name] + "&";
         }
      
         return url;
     };
+    
 
     /**
-     * Delete query by name
-     * @param {string} name, query that will be deleted
+     *	Get clear url without queries
+     */
+    URLQueryBuilder.prototype.getClearUrl = function() {
+
+    	return this.url;
+    };
+
+    /**
+     *	Delete query by name
+     *	@param {string} name, query that will be deleted
      */
     URLQueryBuilder.prototype.delete = function(name) {
-        if(!this.query[name])
+        if(!this.queries[name])
              throw new Error("Can't delete. Query: '" + name + "' not exists");
      
-        delete this.query[name];
+        delete this.queries[name];
         return this;
     };
 
     /**
-     * Change query by name
-     * @param {string} name, query what will be changed
-     * @param {string|number} value, new value for query
+     *	Change query by name
+     *	@param {string} name, query what will be changed
+     *	@param {string|number} value, new value for query
      */
     URLQueryBuilder.prototype.change = function(name, value) {
-        if(!this.query[name])
+        if(!this.queries[name])
             throw new Error("Can't change. Query: '" + name + "' not exists");
      
-        this.query[name] = value.toString();
+        this.queries[name] = value.toString();
         return this;
     };
 
     /**
-     * Add new query
-     * @param {string} name, name of new query
-     * @param {string|number} value, value for new query
+     * 	Add new query
+     * 	@param {string} name, name of new query
+     * 	@param {string|number} value, value for new query
      */
     URLQueryBuilder.prototype.add = function(name, value) {
-        if(typeof name == 'string') {
-            if(this.query[name])
-                throw new Error("Can't add. Query: '" + name + "' already exists");
-         
-            this.query[name] = value.toString();
-        } else if(typeof name == 'object') {
-            var queries = name;
-            for(var i in queries) {
-                this.add(i, queries[i]);
-            }
-        }
+    	var paramType = typeof name;
+
+    	switch(paramType) {
+    		case "string":
+	            if(this.queries[name])
+	                throw new Error("Can't add. Query: '" + name + "' already exists");
+	         
+	            this.queries[name] = value.toString();
+    			break;
+    		case "object":
+	            var queries = name;
+	            for(var i in queries) 
+	            	this.add(i, queries[i]);
+    			break;
+
+    		default:
+    			throw new Error("Unknow type of param name. Type must be a string or an object")
+    	}
+
+        return this;
+    };
+
+
+    /**
+     * 	Clear query string
+     * 	@param {string|object} queries
+     */
+    URLQueryBuilder.prototype.reset = function(queries) {
+    	this.queries = {};
+    	if(typeof queries != 'undefined') {
+    		var queriesFromParam = parseQueries(queries);
+    		this.add(queriesFromParam);
+    	}
+
         return this;
     };
 }

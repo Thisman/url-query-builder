@@ -33,7 +33,6 @@ describe('Url Query Builder', function() {
 			(function () {
 				var qBuilder = new URLQueryBuilder();
 			}).should.not.throw();
-
 		});
 	});
 
@@ -110,6 +109,32 @@ describe('Url Query Builder', function() {
 				var url = qBuilder.add("name", "value")
 					.delete("name2", "value")
 			}).should.throw();		
+		})
+	});
+
+	describe('#reset()', function () {
+		it('should clear query string', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl, "name=value");
+			var url = qBuilder.reset()
+				.getUrl();
+
+			assert.equal("example.com?", url);
+		});
+
+		it('should clear query string and set new value from param {string}', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl, "name=value");
+			var url = qBuilder.reset("name2=value&name3=value")
+				.getUrl();
+
+			assert.equal("example.com?name2=value&name3=value&", url);
+		})
+
+		it('should clear query string and set new value from param {object}', function () {
+			var qBuilder = new URLQueryBuilder(siteUrl, "name=value");
+			var url = qBuilder.reset({name2: "value", name3: "value"})
+				.getUrl();
+
+			assert.equal("example.com?name2=value&name3=value&", url);
 		})
 	});
 

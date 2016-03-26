@@ -172,4 +172,13 @@ module.exports =  function URLQueryBuilder (url, queries) {
 
         return this;
     };
+
+
+    /**
+     * 	Check if queries has specific query
+     * 	@return {boolean} true if has, false if not
+     */
+    URLQueryBuilder.prototype.has = function(name) {
+    	return (name in this.queries);
+    };
 }

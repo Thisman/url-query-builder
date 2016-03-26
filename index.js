@@ -1,9 +1,77 @@
 /**
+*   Parse queries
+*   @param {Object|string} queries
+*   @return {Object} parsed queries
+*/
+function parseQueries (queries) {
+    var parsedQueries = {};
+    var paramType = typeof queries;
+
+    switch(paramType) {
+    	case "undefined": break; // should not throw error
+    	case "object":
+	        parsedQueries = queries;
+    		break;
+    	case "string":
+	        var queriesArray = queries.split("&");
+	        for(var i = 0; i < queriesArray.length; i++) {
+	            var query = queriesArray[i].split("=");
+	            parsedQueries[query[0]] = query[1];
+	        }
+    		break;
+
+    	default: 
+    		throw new Error("param queries must have a string or an object type");
+    }
+    return parsedQueries;
+}
+/**
+*	Parse queries from inital url string
+*	@param {string} url
+*/
+function parseQueriesFromUrl(url) {
+	var paramType = typeof url;
+	var queries = {};
+
+	switch(paramType) {
+		case "undefined": break;
+		case "string":
+		    var queries = url.split("?")[1];
+		    queries = parseQueries(queries);
+			break;
+		default:
+	        throw new Error("param url must be a string or undefined");
+	}
+
+    return queries;
+}
+/**
+*   get a clear url without query
+*	@param {string} url
+*	@return {string} url without query string
+*/
+function getClearUrl(url) {
+	var paramType = typeof url;
+	var clearedUrl = '';
+
+	switch(paramType) {
+		case "undefined": break;
+		case "string":
+			clearedUrl = url.split("?")[0];
+			break;
+		default:
+	        throw new Error("param url must be a string or undefined");
+	}
+
+    return clearedUrl;
+}
+
+
+/**
 *   @constructor
 *   @param {string} url
 *   @param {string|object|undefined} queries
 */
-
 module.exports =  function URLQueryBuilder (url, queries) {
     this.url = getClearUrl(url);
     this.query = parseQueriesFromUrl(url);
@@ -69,54 +137,4 @@ module.exports =  function URLQueryBuilder (url, queries) {
         }
         return this;
     };
-
-
-    /**
-    *   Parse queries
-    *   @param {Object|string} queries
-    *   @return {Object} parsed queries
-    */
-    function parseQueries (queries) {
-        var parsedQueries = {};
-        var queriesType = typeof queries;
-
-        if(typeof queries == 'undefined') {
-            return parsedQueries;
-        } else if(typeof queries == "object") {
-            parsedQueries = queries;
-        } else if(typeof queries == "string") {
-            var queriesArray = queries.split("&");
-            for(var i = 0; i < queriesArray.length; i++) {
-                var query = queriesArray[i].split("=");
-                parsedQueries[query[0]] = query[1];
-            }
-        } else {
-            throw new Error("param queries must have a string or an object type");
-        }
-
-        return parsedQueries;
-    }
-
-    
-    function parseQueriesFromUrl(url) {
-        if(!url) return {};
-        if(typeof url != 'string') 
-            throw new Error("param url must be a string or undefined");
-
-        var queries = url.split("?")[1];
-        queries = parseQueries(queries);
-
-        return queries;
-    }
-
-    /**
-    *   get a clear url without query
-    */
-    function getClearUrl(url) {
-        if(!url) return '';
-        if(typeof url != 'string') 
-            throw new Error("param url must be a string or undefined");
-
-        return url.split("?")[0];
-    }
 }

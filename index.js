@@ -15,24 +15,19 @@ function mergeObj(obj1, obj2) {
 */
 function parseQueries (queries) {
     var parsedQueries = {};
-    var paramType = typeof queries;
 
-    switch(paramType) {
-    	case "object":
-	        parsedQueries = queries;
-    		break;
-    	case "string":
-	        var queriesArray = queries.split("&");
-	        for(var i = 0; i < queriesArray.length; i++) {
-	            var query = queriesArray[i].split("=");
-	            // check to valud data
-	            if(query.length == 2)
-			        parsedQueries[query[0]] = query[1];
-	        }
-    		break;
-
-    	default: break;
+    if(typeof queries === "string") {
+        var queriesArray = queries.split("&");
+        for(var i = 0; i < queriesArray.length; i++) {
+            var query = queriesArray[i].split("=");
+            // check to valud data
+            if(query.length == 2)
+                parsedQueries[query[0]] = query[1];
+        }       
+    } else if(typeof (queries === "object") && queries) { // typeof null/undefined === "object"
+        parsedQueries = queries; 
     }
+
     return parsedQueries;
 }
 /**
@@ -83,9 +78,8 @@ module.exports =  function URLQueryBuilder (url, queries) {
     URLQueryBuilder.prototype.getUrl = function() {
         var url = this.url;
         var queries = '?';
-        for(var name in this.queries) {
+        for(var name in this.queries)
             queries += (name + "=" + this.queries[name] + "&");
-        }
      
         return url + queries;
     };
@@ -105,6 +99,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
      */
     URLQueryBuilder.prototype.delete = function(name) {
         delete this.queries[name];
+        
         return this;
     };
 
@@ -115,6 +110,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
      */
     URLQueryBuilder.prototype.change = function(name, value) {
         this.queries[name] = value.toString();
+
         return this;
     };
 
@@ -125,19 +121,15 @@ module.exports =  function URLQueryBuilder (url, queries) {
      */
     URLQueryBuilder.prototype.add = function(name, value) {
     	var paramType = typeof name;
-
-    	switch(paramType) {
-    		case "string":
-	            this.queries[name] = value.toString();
-    			break;
-    		case "object":
-	            var queries = name;
-	            for(var i in queries) this.add(i, queries[i]);
-    			break;
-
-    		default:
-    			throw new Error("Param name must be a string or an object");
-    	}
+        if(typeof name === "string") {
+            this.queries[name] = value.toString();
+        } else if(typeof name === "object" && name) {
+            var queries = name;
+            for(var i in queries) 
+                this.add(i, queries[i]);
+        } else {
+            throw new Error("Param 'name' must be a string or an object");
+        }
 
         return this;
     };

@@ -1,4 +1,14 @@
 /**
+*	Merge two objects
+*/
+function mergeObj(obj1, obj2) {
+	var result = {};
+	for(var i in obj1) result[i] = obj1[i];
+	for(var j in obj2) result[j] = obj2[j];
+
+	return result;
+}
+/**
 *   Parse queries
 *   @param {Object|string} queries
 *   @return {Object} parsed queries
@@ -64,8 +74,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
     this.queries = parseQueriesFromUrl(url);
 
     var queriesFromParam = parseQueries(queries);
-    for(var i in queriesFromParam)
-        this.queries[i] = queriesFromParam[i];
+    this.queries = mergeObj(this.queries, queriesFromParam);
 
     
     /**

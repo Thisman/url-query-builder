@@ -1,6 +1,6 @@
 {
   "name": "url-query-builder",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Simple add/change/delete url query",
   "main": "index.js",
   "scripts": {

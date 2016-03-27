@@ -16,16 +16,17 @@ var q1 = new URLQueryBuilder("example.com?a=b"); // => example.com?a=b&
 var q2 = new URLQueryBuilder("example.com", "a=b"); // => example.com?a=b&
 // or object
 var q3 = new URLQueryBuilder("example.com", {
-	"name": "value", 
-	"name2": "value2"
-}); // => example.com?name=value&name2=value2&
+	"a": "b", 
+	"a1": "b1"
+}); // => example.com?a=b&a1=b1&
 
 
+// API
 q.add("num1", 100) // => example.com?num1=100
 	.add("num2", 200) // => example.com?num1=100&num2=200&
 	.change("num1", 150) // => example.com?num1=150&num2=200&
 	.delete("num2") // => example.com?num1=150&
-	.add("num3", "300"); // => example.com?num1=100&num3=300&
+	.add({"num3": "300"}); // => example.com?num1=100&num3=300&
 	.getUrl(); // => example.com?num1=100&num3=300&
 
 // reset queries

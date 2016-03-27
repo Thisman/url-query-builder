@@ -126,7 +126,6 @@ var URLQueryBuilder = (function () {
          *  @param {string|number} value, value for new query
          */
         URLQueryBuilder.prototype.add = function(name, value) {
-            var paramType = typeof name;
             if(typeof name === "string") {
                 this.queries[name] = value.toString();
             } else if(typeof name === "object" && name) {

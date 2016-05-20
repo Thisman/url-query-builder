@@ -123,4 +123,17 @@ describe('Url Query Builder', function() {
 			assert.equal(false, qBuilder.has("name2"));
 		})
 	});
+
+	describe('#getUrl()', function () {
+		it("should'n return queries with undefined/null value", function () {
+			var qBuilder = new URLQueryBuilder(siteUrl);
+			qBuilder.add({
+				value1: 0,
+				value2: undefined,
+				value3: null,
+				value4: {}.someProp
+			})
+			assert.equal("example.com?value1=0&", qBuilder.getUrl());
+		});
+	});
 });

@@ -1,6 +1,6 @@
 var assert = require('assert');
 var should = require('should');
-var URLQueryBuilder = require('./index.js');
+var URLQueryBuilder = require('./index.js').default;
 
 var siteUrl = "example.com";
 
@@ -11,13 +11,13 @@ describe('Url Query Builder', function() {
 		it('should parse initial query from url', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl + "?name=value");
 
-			assert.equal("example.com?name=value&", qBuilder.getUrl() );
+			assert.equal("example.com?name=value", qBuilder.getUrl() );
 		});
 
 		it('should parse inital query by @param {string} query', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl, "name=value");
 
-			assert.equal("example.com?name=value&", qBuilder.getUrl() );
+			assert.equal("example.com?name=value", qBuilder.getUrl() );
 		});
 
 		it('should parse inital query by @param {object} query', function () {
@@ -26,7 +26,7 @@ describe('Url Query Builder', function() {
 				"name2":"value2"
 			});
 
-			assert.equal("example.com?name=value&name2=value2&", qBuilder.getUrl() );
+			assert.equal("example.com?name=value&name2=value2", qBuilder.getUrl() );
 		});
 
 		it('should not throw an exception when initialization without params', function () {
@@ -38,7 +38,7 @@ describe('Url Query Builder', function() {
 		it("don't added empty query after last &", function () {
 			var qBuilder = new URLQueryBuilder(siteUrl + "?name=value&");
 
-			assert.equal("example.com?name=value&", qBuilder.getUrl() );
+			assert.equal("example.com?name=value", qBuilder.getUrl() );
 		})
 	});
 
@@ -46,19 +46,19 @@ describe('Url Query Builder', function() {
 		it('should add query string', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl);
 			var url = qBuilder.add("name", "value").getUrl();
-			assert.equal( "example.com?name=value&", url);
+			assert.equal( "example.com?name=value", url);
 
 			url = qBuilder.add("name2", "value2").getUrl();
-			assert.equal("example.com?name=value&name2=value2&", url);
+			assert.equal("example.com?name=value&name2=value2", url);
 		});
 
 		it('should add query object', function () {
 			var qBuilder = new URLQueryBuilder(siteUrl);
 			var url = qBuilder.add({"name": "value"}).getUrl();
-			assert.equal( "example.com?name=value&", url);
+			assert.equal( "example.com?name=value", url);
 
 			url = qBuilder.add({"name2" : "value2"}).getUrl();
-			assert.equal("example.com?name=value&name2=value2&", url);
+			assert.equal("example.com?name=value&name2=value2", url);
 		});
 	});
 
@@ -69,7 +69,7 @@ describe('Url Query Builder', function() {
 				.change("name", "newValue")
 				.getUrl();
 
-			assert.equal("example.com?name=newValue&", url);
+			assert.equal("example.com?name=newValue", url);
 		});
 	});
 
@@ -98,7 +98,7 @@ describe('Url Query Builder', function() {
 			var url = qBuilder.reset("name2=value&name3=value")
 				.getUrl();
 
-			assert.equal("example.com?name2=value&name3=value&", url);
+			assert.equal("example.com?name2=value&name3=value", url);
 		})
 
 		it('should clear query string and set new value from param {object}', function () {
@@ -106,7 +106,7 @@ describe('Url Query Builder', function() {
 			var url = qBuilder.reset({name2: "value", name3: "value"})
 				.getUrl();
 
-			assert.equal("example.com?name2=value&name3=value&", url);
+			assert.equal("example.com?name2=value&name3=value", url);
 		})
 	});
 
@@ -133,7 +133,7 @@ describe('Url Query Builder', function() {
 				value3: null,
 				value4: {}.someProp
 			})
-			assert.equal("example.com?value1=0&", qBuilder.getUrl());
+			assert.equal("example.com?value1=0", qBuilder.getUrl());
 		});
 	});
 });

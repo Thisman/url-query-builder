@@ -2,3 +2,5 @@ test
 test.js
 example
 examples
+src/
+node_modules/

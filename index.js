@@ -72,6 +72,12 @@ function getClearUrl(url) {
 *   @param {string} url
 *   @param {string|object|undefined} queries
 */
+
+/**
+*   TODO
+*   deep parse object/arrays
+*   es6 syntax
+*/
 module.exports =  function URLQueryBuilder (url, queries) {
     this.url = getClearUrl(url);
     this.queries = parseQueriesFromUrl(url);

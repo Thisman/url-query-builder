@@ -60,6 +60,14 @@ function getClearUrl(url) {
 
 
 /**
+*   check is certain value is null
+*   @param {any} value
+*   return {boolean} true if value is null
+*/
+
+
+
+/**
 *   @constructor
 *   @param {string} url
 *   @param {string|object|undefined} queries
@@ -78,8 +86,15 @@ module.exports =  function URLQueryBuilder (url, queries) {
     URLQueryBuilder.prototype.getUrl = function() {
         var url = this.url;
         var queries = '?';
-        for(var name in this.queries)
-            queries += (name + "=" + this.queries[name] + "&");
+        for(var name in this.queries) {
+            var query = this.queries[name]
+            if(
+                query == undefined||
+                query == null
+            ) continue;
+
+            queries += (name + "=" + query + "&");
+        }
      
         return url + queries;
     };
@@ -109,7 +124,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
      *	@param {string|number} value, new value for query
      */
     URLQueryBuilder.prototype.change = function(name, value) {
-        this.queries[name] = value.toString();
+        this.queries[name] = value;
 
         return this;
     };
@@ -121,7 +136,7 @@ module.exports =  function URLQueryBuilder (url, queries) {
      */
     URLQueryBuilder.prototype.add = function(name, value) {
         if(typeof name === "string") {
-            this.queries[name] = value.toString();
+            this.queries[name] = value;
         } else if(typeof name === "object" && name) {
             var queries = name;
             for(var i in queries) 

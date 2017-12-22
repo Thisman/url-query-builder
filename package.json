@@ -14,11 +14,14 @@
     "url": "git+https://github.com/Thisman/url-query-builder.git"
   },
   "devDependencies": {
+    "assert": "^1.4.1",
     "babel-cli": "^6.0.0",
     "babel-core": "^6.5.2",
-    "babel-plugin-remove-comments": "^2.0.0",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0"
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "mocha": "^4.0.1",
+    "pre-commit": "^1.2.2",
+    "should": "^13.1.3"
   },
   "keywords": [
     "url",
@@ -32,5 +35,8 @@
   "bugs": {
     "url": "https://github.com/Thisman/url-query-builder/issues"
   },
-  "homepage": "https://github.com/Thisman/url-query-builder#readme"
+  "homepage": "https://github.com/Thisman/url-query-builder#readme",
+  "pre-commit": [
+    "test"
+  ]
 }

@@ -29,7 +29,7 @@ var URLQueryBuilder = function () {
 
         _classCallCheck(this, URLQueryBuilder);
 
-        this.url = URLQueryBuilder.getClearUrl(url);
+        this.url = URLQueryBuilder.clearUrl(url);
         this.queries = Object.assign(URLQueryBuilder.parseQueriesFromUrl(url), URLQueryBuilder.parseQueries(queries));
     }
 
@@ -41,13 +41,14 @@ var URLQueryBuilder = function () {
 
 
     _createClass(URLQueryBuilder, [{
-        key: 'getUrl',
+        key: 'get',
 
 
         /**
          *	Get a current url with queries
+         *  @return {string} url with queries
          */
-        value: function getUrl() {
+        value: function get() {
             var url = this.url,
                 queries = this.queries;
 
@@ -69,6 +70,7 @@ var URLQueryBuilder = function () {
 
         /**
          *	Get clear url without queries
+         *  @return {string} url without queries
          */
         value: function getClearUrl() {
 
@@ -88,21 +90,7 @@ var URLQueryBuilder = function () {
             return this;
         }
     }, {
-        key: 'change',
-
-
-        /**
-         *	Change query by name
-         *	@param {string} name, query what will be changed
-         *	@param {string|number} value, new value for query
-         */
-        value: function change(name, value) {
-            this.queries[name] = value;
-
-            return this;
-        }
-    }, {
-        key: 'add',
+        key: 'set',
 
 
         /**
@@ -110,7 +98,7 @@ var URLQueryBuilder = function () {
          * 	@param {string} name, name of new query
          * 	@param {string|number} value, value for new query
          */
-        value: function add() {
+        value: function set() {
             var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
             var value = arguments[1];
 
@@ -119,10 +107,10 @@ var URLQueryBuilder = function () {
             } else if ((typeof name === 'undefined' ? 'undefined' : _typeof(name)) === "object" && name !== null) {
                 var queries = name;
                 for (var i in queries) {
-                    this.add(i, queries[i]);
+                    this.set(i, queries[i]);
                 }
             } else {
-                throw new Error("Param 'name' must be a string or an object");
+                throw new Error('Param \'name\' must be a string or an object, got ' + name);
             }
 
             return this;
@@ -151,11 +139,11 @@ var URLQueryBuilder = function () {
          * 	@return {boolean} true if has, false if not
          */
         value: function has(name) {
-            return name in this.queries;
+            return this.queries.hasOwnProperty(name);
         }
     }], [{
-        key: 'getClearUrl',
-        value: function getClearUrl(url) {
+        key: 'clearUrl',
+        value: function clearUrl(url) {
             var clearedUrl = '';
 
             if (typeof url === 'string') {
@@ -165,7 +153,7 @@ var URLQueryBuilder = function () {
 
                 clearedUrl = _url$split2[0];
             } else {
-                throw new Error('Param \'url\' in method \'getClearUrl\' must be a string got ' + url);
+                throw new Error('Param \'url\' in method \'clearUrl\' must be a string got ' + url);
             }
 
             return clearedUrl;

@@ -10,7 +10,7 @@ export default class URLQueryBuilder {
      *   @param {string|object|undefined} queries
      */
     constructor(url = '', queries = {}) {
-        this.url = URLQueryBuilder.getClearUrl(url);
+        this.url = URLQueryBuilder.clearUrl(url);
         this.queries = Object.assign(
             URLQueryBuilder.parseQueriesFromUrl(url),
             URLQueryBuilder.parseQueries(queries)
@@ -22,14 +22,14 @@ export default class URLQueryBuilder {
      *	@param {string} url
      *	@return {string} url without query string
      */
-    static getClearUrl(url) {
+    static clearUrl(url) {
         let clearedUrl = '';
 
         if(typeof url === 'string') {
             [clearedUrl] = url.split("?");
         } else {
             throw new Error(
-                `Param 'url' in method 'getClearUrl' must be a string got ${url}`
+                `Param 'url' in method 'clearUrl' must be a string got ${url}`
             );
         }
 
@@ -79,8 +79,9 @@ export default class URLQueryBuilder {
     
     /**
      *	Get a current url with queries
+     *  @return {string} url with queries
      */
-    getUrl() {
+    get() {
         const {url, queries} = this;
         let queriesStr = '';
         for(let prop in queries) {
@@ -97,6 +98,7 @@ export default class URLQueryBuilder {
 
     /**
      *	Get clear url without queries
+     *  @return {string} url without queries
      */
     getClearUrl() {
 
@@ -114,31 +116,20 @@ export default class URLQueryBuilder {
     };
 
     /**
-     *	Change query by name
-     *	@param {string} name, query what will be changed
-     *	@param {string|number} value, new value for query
-     */
-    change(name, value) {
-        this.queries[name] = value;
-
-        return this;
-    };
-
-    /**
      * 	Add new query
      * 	@param {string} name, name of new query
      * 	@param {string|number} value, value for new query
      */
-    add(name = '', value) {
+    set(name = '', value) {
         if(typeof name === "string") {
             this.queries[name] = value;
         } else if(typeof name === "object" && name !== null) {
             const queries = name;
             for(let i in queries) {
-                this.add(i, queries[i]);
+                this.set(i, queries[i]);
             }
         } else {
-            throw new Error("Param 'name' must be a string or an object");
+            throw new Error(`Param 'name' must be a string or an object, got ${name}`);
         }
 
         return this;
@@ -159,6 +150,6 @@ export default class URLQueryBuilder {
      * 	@return {boolean} true if has, false if not
      */
     has(name) {
-    	return (name in this.queries);
+    	return this.queries.hasOwnProperty(name);
     };
 }

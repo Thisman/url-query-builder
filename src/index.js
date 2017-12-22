@@ -3,37 +3,94 @@
 *   deep parse object/arrays
 */
 
-/**
-*   @constructor
-*   @param {string} url
-*   @param {string|object|undefined} queries
-*/
 export default class URLQueryBuilder {
-	constructor(url, queries) {
-	    this.url = URLQueryBuilder.getClearUrl(url);
-	    this.queries = Object.assign(
-	    	URLQueryBuilder.parseQueriesFromUrl(url),
-	    	URLQueryBuilder.parseQueries(queries)
-	    );
-	}
+    /**
+     *   @constructor
+     *   @param {string} url
+     *   @param {string|object|undefined} queries
+     */
+    constructor(url = '', queries = {}) {
+        this.url = URLQueryBuilder.getClearUrl(url);
+        this.queries = Object.assign(
+            URLQueryBuilder.parseQueriesFromUrl(url),
+            URLQueryBuilder.parseQueries(queries)
+        );
+    }
+
+    /**
+     *  Get a clear url without query
+     *	@param {string} url
+     *	@return {string} url without query string
+     */
+    static getClearUrl(url) {
+        let clearedUrl = '';
+
+        if(typeof url === 'string') {
+            [clearedUrl] = url.split("?");
+        } else {
+            throw new Error(
+                `Param 'url' in method 'getClearUrl' must be a string got ${url}`
+            );
+        }
+
+        return clearedUrl;
+    }
+
+    /**
+     *	Parse queries from inital url string
+     *	@param {string} url
+     */
+    static parseQueriesFromUrl(url) {
+        let queries = {};
+
+        if(typeof url === 'string') {
+            [,queries] = url.split("?");
+            queries = URLQueryBuilder.parseQueries(queries);
+        } else {
+            throw new Error(
+                `Param 'url' in method 'parseQueriesFromUrl' must be a string got ${url}`
+            );
+        }
+
+        return queries;
+    }
+
+    /**
+     *   Parse queries
+     *   @param {Object|string} queries
+     *   @return {Object} parsed queries
+     */
+    static parseQueries(queries = {}) {
+        let parsedQueries = {};
+        const typeOfQueries = typeof queries;
+
+        if(typeOfQueries === "string") {
+            let queriesArray = queries.split("&");
+            for(let i = 0; i < queriesArray.length; i++) {
+                let [prop, value] = queriesArray[i].split("=");
+                parsedQueries[prop] = value;
+            }
+        } else if(typeOfQueries === "object" && queries !== null) {
+            parsedQueries = queries;
+        }
+
+        return parsedQueries;
+    }
     
     /**
      *	Get a current url with queries
      */
     getUrl() {
-        let {url, queries} = this;
+        const {url, queries} = this;
         let queriesStr = '';
         for(let prop in queries) {
-            let value = queries[prop];
-            if(
-                value != undefined ||
-                value != null
-            ) {
+            const value = queries[prop];
+            if(value !== undefined && value !== null) {
 	            queriesStr += `${prop}=${value}&`;
             };
         }
      
-        // delete last unnessesary &
+        // delete last unnecessary &
         queriesStr = queriesStr.slice(0, -1);
         return `${url}?${queriesStr}`;
     };
@@ -72,14 +129,11 @@ export default class URLQueryBuilder {
      * 	@param {string} name, name of new query
      * 	@param {string|number} value, value for new query
      */
-    add(name = {}, value) {
+    add(name = '', value) {
         if(typeof name === "string") {
             this.queries[name] = value;
-        } else if(
-        	typeof name === "object" &&
-        	name != null
-        ) {
-            let queries = name;
+        } else if(typeof name === "object" && name !== null) {
+            const queries = name;
             for(let i in queries) {
                 this.add(i, queries[i]);
             }
@@ -94,7 +148,7 @@ export default class URLQueryBuilder {
      * 	Clear query string
      * 	@param {string|object} queries
      */
-    reset(queries) {
+    reset(queries = '') {
 		this.queries = URLQueryBuilder.parseQueries(queries);
 
         return this;
@@ -107,56 +161,4 @@ export default class URLQueryBuilder {
     has(name) {
     	return (name in this.queries);
     };
-}
-/**
-*   get a clear url without query
-*	@param {string} url
-*	@return {string} url without query string
-*/
-URLQueryBuilder.getClearUrl = function(url) {
-	let clearedUrl = '';
-
-	if(typeof url === 'string') {
-		[clearedUrl] = url.split("?");
-	}
-
-    return clearedUrl;
-}
-/**
-*	Parse queries from inital url string
-*	@param {string} url
-*/
-URLQueryBuilder.parseQueriesFromUrl = function(url) {
-	let queries = {};
-
-	if(typeof url === 'string') {
-		[,queries] = url.split("?");
-		queries = URLQueryBuilder.parseQueries(queries);
-	}
-
-    return queries;
-}
-/**
-*   Parse queries
-*   @param {Object|string} queries
-*   @return {Object} parsed queries
-*/
-URLQueryBuilder.parseQueries = function(queries = {}) {
-    let parsedQueries = {};
-    let typeOfQueries = typeof queries;
-
-    if(typeOfQueries === "string") {
-        let queriesArray = queries.split("&");
-        for(let i = 0; i < queriesArray.length; i++) {
-        	let [prop, value] = queriesArray[i].split("=");
-            parsedQueries[prop] = value;
-        }       
-    } else if(
-    	typeOfQueries === "object" && 
-    	queries != null
-    ) {
-        parsedQueries = queries; 
-    }
-
-    return parsedQueries;
 }

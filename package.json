@@ -2,29 +2,43 @@
   "name": "url-query-builder",
   "version": "3.0.0",
   "description": "Simple add/change/delete url query",
-  "main": "index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.iife.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "test": "mocha",
-    "build": "tsc --noEmit ./src/index.ts && babel ./src/index.ts -o ./index.js && mocha",
-    "type-check": "tsc --noEmit ./src/index.ts"
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "rollup -c",
+    "build": "npm run build:types && npm run build:js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Thisman/url-query-builder.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-typescript": "^7.3.3",
-    "assert": "^1.5.0",
-    "babel-preset-minify": "^0.4.3",
-    "mocha": "^4.0.1",
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/mocha": "^5.2.7",
+    "assert": "^2.0.0",
+    "babel-preset-minify": "^0.5.1",
+    "mocha": "^6.2.0",
     "pre-commit": "^1.2.2",
+    "rollup": "^1.21.3",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2",
     "should": "^13.2.3",
-    "typescript": "^2.9.1"
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.3"
   },
   "keywords": [
     "url",
@@ -40,7 +54,10 @@
   },
   "homepage": "https://github.com/Thisman/url-query-builder#readme",
   "pre-commit": [
+    "type-check",
     "test"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "@types/assert": "^1.4.3"
+  }
 }

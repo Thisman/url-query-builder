@@ -1,0 +1,38 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "prefer-const": 2,
+    "no-eval": 2,
+    "align": [
+      0,
+      "arguments",
+      "parameters"
+    ],
+    "arrow-parens": 0,
+    "brace-style": [
+      2,
+      "1tbs",
+      { "allowSingleLine": true }
+    ],
+    "indent": [2, 2],
+    "space-in-parens": [2, "never"],
+    "array-bracket-spacing": [2, "never"],
+    "radix": 2,
+
+    "curly": [2, "all"],
+    "block-spacing": 2,
+    "operator-linebreak": [2, "after"],
+    "prefer-template": 1,
+    "no-consecutive-blank-lines": 0,
+    "variable-name": 0,
+    "no-console": 2,
+    "import-name": 0,
+    "function-name": 0,
+    "object-curly-spacing": [2, "never"],
+    "no-increment-decrement": 0,
+    "no-else-after-return": 0,
+    "space-before-function-paren": [2, {"anonymous": "always", "named": "never", "asyncArrow": "always"}]
+  }
+}

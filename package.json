@@ -7,6 +7,7 @@
   "browser": "dist/index.iife.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
+    "lint": "eslint src/**/*.ts tests/**/*.ts",
     "test": "mocha",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
@@ -27,8 +28,11 @@
     "@babel/preset-env": "^7.6.0",
     "@babel/preset-typescript": "^7.6.0",
     "@types/mocha": "^5.2.7",
+    "@typescript-eslint/eslint-plugin": "^2.2.0",
+    "@typescript-eslint/parser": "^2.2.0",
     "assert": "^2.0.0",
     "babel-preset-minify": "^0.5.1",
+    "eslint": "^6.4.0",
     "mocha": "^6.2.0",
     "pre-commit": "^1.2.2",
     "rollup": "^1.21.3",
@@ -54,6 +58,7 @@
   },
   "homepage": "https://github.com/Thisman/url-query-builder#readme",
   "pre-commit": [
+    "lint",
     "type-check",
     "test"
   ],

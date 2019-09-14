@@ -1,42 +1,19 @@
-type URLQueryValue = string | undefined | null | number;
-interface URLQueryObject {[key: string]: URLQueryValue}
-type URLQueryParam = URLQueryObject | string;
+import {
+  URLQueryValue,
+  URLQueryObject,
+  URLQueryParam 
+} from './types';
 
-const clearUrl = (url: string): string => {
-  let clearedUrl = '';
-
-  if(typeof url === 'string') {
-    [clearedUrl] = url.split("?");
-  } else {
-    throw new Error(
-      `Param 'url' in method 'clearUrl' must be a string got ${url}`);
-  }
-
-  return clearedUrl;
-}
-
-const parseQueries = (queries: URLQueryParam = ''): URLQueryObject => {
-  let parsedQueries: URLQueryObject = {};
-
-  if(typeof queries === 'string') {
-    const queriesArray: string[] = queries.split('&');
-    for(let i = 0; i < queriesArray.length; i++) {
-      const [prop, value] = queriesArray[i].split('=');
-      parsedQueries[prop] = value;
-    }
-  } else if(typeof queries === 'object' && queries !== null) {
-    parsedQueries = queries;
-  }
-
-  return parsedQueries;
-}
+import {URLQueryParamError} from './errors';
+import {clearUrl} from './helpers/clear_url';
+import {parseQueries} from './helpers/parse_queries';
 
 const parseQueriesFromUrl = (url: string): URLQueryObject => {
   if(typeof url === 'string') {
     const [, queries] = url.split('?');
     return parseQueries(queries);
   } else {
-    throw new Error(
+    throw new URLQueryParamError(
       `Param 'url' in method 'parseQueriesFromUrl' must be a string got ${url}`);
   }
 }
@@ -85,7 +62,7 @@ export default class URLQueryBuilder {
         this.set(key, name[key]);
       }
     } else {
-      throw new Error(`Param 'name' must be a string or an object, got ${name}`);
+      throw new URLQueryParamError(`Param 'name' must be a string or an object, got ${name}`);
     }
 
     return this;

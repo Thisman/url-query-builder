@@ -1,6 +1,6 @@
 {
   "name": "url-query-builder",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Simple add/change/delete url query",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -20,29 +20,30 @@
     "url": "git+https://github.com/Thisman/url-query-builder.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.0",
-    "@babel/core": "^7.6.0",
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-numeric-separator": "^7.2.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/preset-env": "^7.6.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
+    "@types/assert": "^1.4.3",
     "@types/mocha": "^5.2.7",
-    "@typescript-eslint/eslint-plugin": "^2.2.0",
-    "@typescript-eslint/parser": "^2.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
     "assert": "^2.0.0",
     "babel-preset-minify": "^0.5.1",
-    "eslint": "^6.4.0",
-    "mocha": "^6.2.0",
+    "eslint": "^6.5.1",
+    "mocha": "^6.2.2",
     "pre-commit": "^1.2.2",
-    "rollup": "^1.21.3",
+    "rollup": "^1.25.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.2",
     "should": "^13.2.3",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.6.3"
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
   },
   "keywords": [
     "url",
@@ -61,8 +62,5 @@
     "lint",
     "type-check",
     "test"
-  ],
-  "dependencies": {
-    "@types/assert": "^1.4.3"
-  }
+  ]
 }

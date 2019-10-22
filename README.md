@@ -17,7 +17,7 @@ yarn add url-query-builder --save
 import URLQueryBuilder from 'url-query-builder'
 
 // create instance
-let q = new URLQueryBuilder('example.com') // => example.com?
+const q = new URLQueryBuilder('example.com') // => example.com?
 // with query in url
 const q1 = new URLQueryBuilder('example.com?a=b') // => example.com?a=b
 // with query by param, can be string

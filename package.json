@@ -1,6 +1,6 @@
 {
   "name": "url-query-builder",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Simple add/change/delete url query",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",

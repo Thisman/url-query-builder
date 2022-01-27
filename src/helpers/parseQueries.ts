@@ -1,3 +1,4 @@
+import { URLQueryParamError } from '../errors';
 import {
   URLQueryObject,
   URLQueryParam 
@@ -17,4 +18,14 @@ export const parseQueries = (queries: URLQueryParam = ''): URLQueryObject => {
   }
 
   return parsedQueries;
+}
+
+export const parseQueriesFromUrl = (url: string): URLQueryObject => {
+  if(typeof url === 'string') {
+    const [, queries] = url.split('?');
+    return parseQueries(queries);
+  } else {
+    throw new URLQueryParamError(
+      `Param 'url' in method 'parseQueriesFromUrl' must be a string got ${url}`);
+  }
 }

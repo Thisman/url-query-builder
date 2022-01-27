@@ -3,22 +3,11 @@ import {
   URLQueryObject,
   URLQueryParam 
 } from './types';
+import { URLQueryParamError } from './errors';
+import { clearUrl } from './helpers/clearUrl';
+import { parseQueries, parseQueriesFromUrl } from './helpers/parseQueries';
 
-import {URLQueryParamError} from './errors';
-import {clearUrl} from './helpers/clear_url';
-import {parseQueries} from './helpers/parse_queries';
-
-const parseQueriesFromUrl = (url: string): URLQueryObject => {
-  if(typeof url === 'string') {
-    const [, queries] = url.split('?');
-    return parseQueries(queries);
-  } else {
-    throw new URLQueryParamError(
-      `Param 'url' in method 'parseQueriesFromUrl' must be a string got ${url}`);
-  }
-}
-
-export default class URLQueryBuilder {
+export class URLQueryBuilder {
   private url = '';
   private queries: URLQueryObject = {};
 
@@ -36,23 +25,23 @@ export default class URLQueryBuilder {
       const value = this.queries[prop];
       if(value !== undefined && value !== null) {
         queriesStr += `${prop}=${value}&`;
-      };
+      }
     }
   
     // Delete last unnecessary &.
     queriesStr = queriesStr.slice(0, -1);
     return `${this.url}?${queriesStr}`;
-  };
+  }
 
   public getClearUrl(): string {
     return this.url;
-  };
+  }
 
   public delete(name: string): this {
     delete this.queries[name];
     
     return this;
-  };
+  }
 
   public set(name: URLQueryParam, value?: URLQueryValue): this {
     if(typeof name === 'string') {
@@ -66,15 +55,15 @@ export default class URLQueryBuilder {
     }
 
     return this;
-  };
+  }
 
   public reset(queries: URLQueryParam = ''): this {
     this.queries = parseQueries(queries);
 
     return this;
-  };
+  }
 
   public has(name: string): boolean {
     return this.queries.hasOwnProperty(name);
-  };
+  }
 }

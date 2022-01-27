@@ -1,6 +1,6 @@
 import assert from 'assert';
 import should from 'should';
-import URLQueryBuilder from '../src/index';
+import { URLQueryBuilder } from '../src/index';
 
 const siteUrl = "example.com";
 
@@ -50,10 +50,10 @@ describe('Url Query Builder', function () {
 
     it('should set query object', function () {
       const qBuilder = new URLQueryBuilder(siteUrl);
-      let url = qBuilder.set({"name": "value"}).get();
+      let url = qBuilder.set({ "name": "value" }).get();
       assert.equal("example.com?name=value", url);
 
-      url = qBuilder.set({"name2" : "value2"}).get();
+      url = qBuilder.set({ "name2" : "value2" }).get();
       assert.equal("example.com?name=value&name2=value2", url);
     });
   });
@@ -86,7 +86,7 @@ describe('Url Query Builder', function () {
 
     it('should clear query string and set new value from param {object}', function () {
       const qBuilder = new URLQueryBuilder(siteUrl, "name=value");
-      const url = qBuilder.reset({name2: "value", name3: "value"}).get();
+      const url = qBuilder.reset({ name2: "value", name3: "value" }).get();
 
       assert.equal("example.com?name2=value&name3=value", url);
     })

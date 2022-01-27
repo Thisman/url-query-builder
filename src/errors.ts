@@ -1,1 +1,1 @@
-export class URLQueryParamError extends Error {};
+export class URLQueryParamError extends Error {}
